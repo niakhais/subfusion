@@ -42,6 +42,8 @@ In Claude Code, ask with the skill in mind:
 
 or type `/local-worker` followed by the task. Claude shows the plan, delegates the bulk parts, reviews and applies the results.
 
+Thinking mode is off by default for speed. Claude adds `--think` for subtasks that need reasoning, or after a no-think answer fails review. This uses `chat_template_kwargs.enable_thinking`, which llama.cpp and vLLM support; servers that ignore it just answer normally.
+
 Test the connection directly:
 
 ```bash

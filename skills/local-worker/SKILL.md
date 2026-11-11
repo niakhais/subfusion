@@ -14,6 +14,7 @@ python3 ~/.claude/skills/local-worker/worker.py "<self-contained task>"
 cat some/file.py | python3 ~/.claude/skills/local-worker/worker.py "<task about this file>"
 ```
 
+- Thinking is off by default, which makes calls much faster on reasoning models such as Qwen. Add `--think` before the prompt for subtasks that need reasoning (tricky algorithms, parsers, debugging); leave it off for drafts, boilerplate, tests and summaries. If a no-think result fails review, retry once with `--think`.
 - The worker sees only what you send it. It cannot read files, browse, or see this conversation. Put every needed fact, file excerpt, constraint and the exact output format into the prompt.
 - Run worker calls one after another unless the user says their server has several parallel slots.
 - Keep each prompt plus expected answer well under the server's context window (often 16k-32k tokens).

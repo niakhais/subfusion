@@ -5,6 +5,7 @@ Usage:
   worker.py "prompt"                      prompt as argument
   cat file.py | worker.py "review this"   stdin is appended to the prompt as context
   worker.py --max-tokens 4000 "prompt"
+  worker.py --think "prompt"              let the model reason first (slower; default is off)
 Env: LOCAL_WORKER_URL (default http://localhost:8080/v1/chat/completions)
 """
 import json
@@ -20,9 +21,15 @@ SYSTEM = ("You are a worker model. Do exactly the task given, completely. "
 
 def main(argv):
     max_tokens = 8192
-    if len(argv) >= 2 and argv[0] == "--max-tokens":
-        max_tokens = int(argv[1])
-        argv = argv[2:]
+    think = False
+    while argv and argv[0] in ("--max-tokens", "--think", "--no-think"):
+        flag = argv.pop(0)
+        if flag == "--max-tokens":
+            if not argv or not argv[0].isdigit():
+                sys.exit("--max-tokens needs a number")
+            max_tokens = int(argv.pop(0))
+        else:
+            think = flag == "--think"
     prompt = " ".join(argv).strip()
     if not sys.stdin.isatty():
         context = sys.stdin.read()
@@ -35,6 +42,8 @@ def main(argv):
         "messages": [{"role": "system", "content": SYSTEM},
                      {"role": "user", "content": prompt}],
         "max_tokens": max_tokens,
+        # llama.cpp/vLLM pass this to the chat template; Qwen-style models skip their reasoning block when False
+        "chat_template_kwargs": {"enable_thinking": think},
     }).encode()
     req = urllib.request.Request(URL, body, {"Content-Type": "application/json"})
     try:
