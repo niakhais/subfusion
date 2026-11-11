@@ -1,6 +1,6 @@
-# Atomic Agent for Subscription Claude Skill (unofficial)
+# subfusion
 
-> **Unofficial.** Not affiliated with, endorsed by, or part of [Atomic Agent](https://github.com/AtomicBot-ai/atomic-agent) or AtomicBot. Inspired by its Fusion mode (a strong model plans, local workers execute), rebuilt as a Claude Code skill so it runs on a Claude Pro/Max subscription instead of an API key.
+> Based on the Fusion mode of [Atomic Agent](https://github.com/AtomicBot-ai/atomic-agent) (a strong model plans, local workers execute), rebuilt as a Claude Code skill so it runs on a Claude Pro/Max subscription instead of an API key. Unofficial: not affiliated with or endorsed by AtomicBot.
 
 A Claude Code skill that lets Claude plan a task and hand the bulk work to a free local model.
 
@@ -11,9 +11,9 @@ Tested with Qwen3.8 27B (`UD-IQ4_XS`) on an RTX 5080, reached from a Mac over Ta
 ## Install
 
 ```bash
-git clone https://github.com/niakhais/atomic-agent-subscription-claude-skill-unofficial.git
+git clone https://github.com/niakhais/subfusion.git
 mkdir -p ~/.claude/skills
-cp -R atomic-agent-subscription-claude-skill-unofficial/skills/local-worker ~/.claude/skills/
+cp -R subfusion/skills/local-worker ~/.claude/skills/
 ```
 
 The script uses only the Python standard library.
