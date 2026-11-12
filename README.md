@@ -54,6 +54,23 @@ python3 ~/.claude/skills/local-worker/worker.py "Write a Python function is_prim
 
 `llama-server` and Ollama have no authentication by default. If the server listens on `0.0.0.0`, restrict it with a firewall to your private network (for example Tailscale's `100.64.0.0/10`) or set an API key. Do not expose it to the internet.
 
+## Credits
+
+The idea comes from **[Atomic Agent](https://github.com/AtomicBot-ai/atomic-agent)** by AtomicBot (MIT license), specifically its Fusion mode: one model plans and hands the bulk of a job to a pool of local workers, then checks and merges their results. subfusion is an independent re-implementation of that idea as a Claude Code skill; it contains no Atomic Agent code. Thanks to the Atomic Agent team for publishing the design and their evaluation work openly.
+
+### Atomic Agent's published benchmark (their results, not subfusion's)
+
+Atomic Agent reports a [GAIA Level 1 evaluation](https://github.com/AtomicBot-ai/atomic-agent/blob/main/eval-agents/docs/GAIA-L1-EXPERIMENT.md): 53 public, mostly web-research tasks, scored automatically against the official answers, with every agent driving the same local `qwen-3.6-35b-a3b` model:
+
+| Agent (same local model) | Accuracy | Avg time per task |
+|---|---|---|
+| Atomic Agent 0.1.36 | 37/53 = 69.8% | ~217 s |
+| Hermes | 31/53 = 58.5% | ~351 s |
+
+They also report Atomic Agent at 52.8% with `qwen-3.5-9b` and 45.3% with `gemma-4-12b`. See their write-up for the setup, caveats (single run per configuration, mixed agent versions across models) and raw artifacts.
+
+These numbers measure Atomic Agent running a single local model. They do not measure Fusion mode or subfusion, so they say nothing about how well subfusion works. subfusion's own benchmark (Claude alone vs Claude delegating to a local model, on coding tasks) is in progress.
+
 ## License
 
 MIT
